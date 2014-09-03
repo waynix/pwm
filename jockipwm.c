@@ -11,7 +11,7 @@ const uint8_t  PORTCOUNT = 5;
 uint8_t channels[5];
 
 
-ISR(TIMER1_COMPA_vect)
+ISR(TIMER0_COMPA_vect)
 {
     static uint8_t current = 0;
     static uint8_t counter = 0;
@@ -61,6 +61,7 @@ ISR(TIMER1_COMPA_vect)
         }
     }
 
+ISR(TIMER1_COMPA_vect)
     LEDPORT ^= LEDBIT;
 }
 
@@ -77,6 +78,10 @@ int main(void)
     OCR1A = 8192;
     TIMSK1 = 1 << OCIE1A;
     TIFR1 = 1 << OCF1A;
+
+    /* Timer0 for PWM*/
+    TCCR0A = (1 << WGM01) | (0 << WGM00);
+    TCCR0B = 
 
     DDRB = DDRC = DDRD = DDRF = 0xFF;
     PORTB = PORTC = PORTD = PORTF = 0x00;
